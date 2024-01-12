@@ -79,10 +79,10 @@ class ConfigExplorer {
     this.name, {
     this.paths,
     this.searchPatterns,
-    FileSystem? fs,
     this.merge = true,
     this.strategies,
-  }) : fs = fs ?? const LocalFileSystem();
+    this.fs = const LocalFileSystem(),
+  });
 
   /// Search for the configuration.
   /// Returns the configuration as a map, or null if no configuration was found.
@@ -199,4 +199,3 @@ Map<String, dynamic> _loadYamlAsJson(String contents) {
   }
   return {};
 }
-

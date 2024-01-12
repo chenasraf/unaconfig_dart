@@ -1,3 +1,4 @@
+/// A library for searching for configuration files.
 library unaconfig;
 
 import 'dart:async';

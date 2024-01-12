@@ -6,6 +6,8 @@ either a standalone file or pubspec.yaml.
 This package lets you find files in various formats and get the first (or merged) config that
 matches.
 
+This package is inspired by NPM's [cosmiconfig](https://www.npmjs.com/package/cosmiconfig).
+
 ## Features
 
 - Just set your config name and search
@@ -27,23 +29,22 @@ dart pub add unaconfig
 Create an explorer and search:
 
 ```dart
-final config = await ConfigExplorer('my_package').search();
+final config = await Unaconfig('my_package').search();
 ```
 
 ### Providing paths and options
 
-You can provide several parameters to the `ConfigExplorer` to change where and how it searches for
-files.
+You can provide several parameters to the `Unaconfig` to change where and how it searches for files.
 
 Only the first parameter, `name`, is required. Below are the default values:
 
 ```dart
-final explorer = ConfigExplorer('my_package',
+final explorer = Unaconfig('my_package',
   paths: [Directory.current],
   // see "Search Patterns" section
-  searchPatterns: ConfigExplorer.defaultSearchPatterns,
+  searchPatterns: Unaconfig.defaultSearchPatterns,
   // see "Strategies" section
-  strategies: ConfigExplorer.defaultStrategies,
+  strategies: Unaconfig.defaultStrategies,
   merge: true,
   fs: LocalFileSystem(),
 );
@@ -55,7 +56,7 @@ Search patterns define what the config file should be named, inside any of the p
 list.
 
 - Each string will eventually become a `RegExp` pattern, so be sure to escape as necessary.
-- `{name}` inside the patterns is replaced by the name provided to the `ConfigExplorer`.
+- `{name}` inside the patterns is replaced by the name provided to the `Unaconfig`.
 
 By default, these are the files being searched:
 
@@ -94,10 +95,10 @@ The current strategies are:
 - Any `json` file - parse json file entirely
 
 You can create your own strategies easily by implementing an instance of this class (or extend to a
-subclass) and putting it in the `strategies` parameter of `ConfigExplorer`.
+subclass) and putting it in the `strategies` parameter of `Unaconfig`.
 
 **Note:** if you supply your own strategies, they will replace the defaults. Make sure to include
-them manually from `ConfigExplorer.defaultStrategies` if you so desire.
+them manually from `Unaconfig.defaultStrategies` if you so desire.
 
 ## Contributing
 

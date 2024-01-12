@@ -14,7 +14,7 @@ void main() {
           }),
         );
 
-    final explorer = ConfigExplorer('test', fs: fs);
+    final explorer = Unaconfig('test', fs: fs);
     final results = await explorer.search();
     expect(results, {
       'test': {'key': 'value'}
@@ -27,7 +27,7 @@ void main() {
         .file('${fs.currentDirectory.path}/.test.yaml')
         .writeAsStringSync('''test:\n  key: value''');
 
-    final explorer = ConfigExplorer('test', fs: fs);
+    final explorer = Unaconfig('test', fs: fs);
     final results = await explorer.search();
     expect(results, {
       'test': {'key': 'value'}

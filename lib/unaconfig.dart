@@ -23,7 +23,7 @@ import 'package:path/path.dart' as p;
 ///   is used as the key to look up the configuration.
 /// * If the file name matches `.*\.json$`, the file is parsed as JSON.
 /// * If the file name matches `.*\.ya?ml$`, the file is parsed as YAML.
-class ConfigExplorer {
+class Unaconfig {
   /// The name of the configuration to search for.
   final String name;
 
@@ -75,7 +75,7 @@ class ConfigExplorer {
     ),
   ];
 
-  ConfigExplorer(
+  Unaconfig(
     this.name, {
     this.paths,
     this.searchPatterns,

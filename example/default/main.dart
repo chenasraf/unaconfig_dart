@@ -2,7 +2,7 @@
 
 import 'package:unaconfig/unaconfig.dart';
 
-final explorer = ConfigExplorer('test_pkg');
+final explorer = Unaconfig('test_pkg');
 
 void main() async {
   final config = await explorer.search();

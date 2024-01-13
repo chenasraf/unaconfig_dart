@@ -1,0 +1,5 @@
+test_pkg:
+  colors:
+    bg: "#000000"
+    fg: "#FFFFFF"
+    bg_alpha: 0.9

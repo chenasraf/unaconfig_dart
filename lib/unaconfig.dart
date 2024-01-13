@@ -61,7 +61,7 @@ class Unaconfig {
       (name, path, contents) {
         final map = _loadYamlAsJson(contents);
         if (map.containsKey(name)) {
-          return map;
+          return map[name];
         }
         return null;
       },
@@ -80,7 +80,7 @@ class Unaconfig {
     this.name, {
     this.paths,
     this.searchPatterns,
-    this.merge = true,
+    this.merge = false,
     this.strategies,
     this.fs = const LocalFileSystem(),
   });
@@ -102,11 +102,13 @@ class Unaconfig {
         await for (final entity in dir.list(recursive: true)) {
           if (entity is File) {
             final path = entity.path;
-            final fullPath = p.join(dirPath, path);
-            if (patterns.any((p) => RegExp(p).allMatches(path).isNotEmpty)) {
+            if (patterns.any((pat) {
+              final res = RegExp(pat).allMatches(p.basename(path)).isNotEmpty;
+              return res;
+            })) {
               for (final strategy in strategies) {
-                if (strategy.matches(path)) {
-                  final config = await strategy.search(name, fullPath);
+                if (strategy.matches(p.basename(path))) {
+                  final config = await strategy.search(name, path);
                   if (config != null) {
                     if (!merge) {
                       results.clear();
@@ -157,6 +159,7 @@ class SearchStrategy {
       final contents = await fs.file(path).readAsString();
       return getConfig(name, path, contents);
     } catch (e) {
+      // ignore: avoid_print
       print('Error reading $path: $e');
       return null;
     }
@@ -200,3 +203,4 @@ Map<String, dynamic> _loadYamlAsJson(String contents) {
   }
   return {};
 }
+

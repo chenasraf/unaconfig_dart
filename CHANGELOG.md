@@ -1,6 +1,7 @@
-## 0.0.2
+## 0.1.0
 
-- fix: pubspec parser
+- Reorganize classes names & structures
+- Removed `merge`
 
 ## 0.0.1
 

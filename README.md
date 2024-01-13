@@ -38,12 +38,16 @@ Only the first parameter, `name`, is required. Below are the default values:
 
 ```dart
 final explorer = Unaconfig(
+  // Name to look for in filenames
   'my_package',
-  paths: [Directory.current],
-  // see "Search Patterns" section
-  searchPatterns: Unaconfig.defaultSearchPatterns,
-  // see "ConfigParsers" section
-  parsers: Unaconfig.defaultparsers,
+  // Paths to search in, see "Paths" section
+  paths: [projectRoot, homeDirectory],
+  // Filenames to try in each search path, see "Filename Patterns" section
+  filenamePatterns: Unaconfig.defaultFilenamePatterns,
+  // Parsers that resolve config files, see "ConfigParsers" section
+  parsers: Unaconfig.defaultParsers,
+  // The filesystem to use for file searching. Can be overridden for tests, or using alternative
+  // filesystems.
   fs: LocalFileSystem(),
 );
 ```

@@ -3,16 +3,15 @@
 If you are bulding a package or library for dart, you will often need to get the user config from
 either a standalone file or pubspec.yaml.
 
-This package lets you find files in various formats and get the first (or merged) config that
-matches.
+This package lets you find files in various formats and get the first config that matches.
 
 This package is inspired by NPM's [cosmiconfig](https://www.npmjs.com/package/cosmiconfig).
 
 ## Features
 
 - Just set your config name and search
-- Customizable strategies, so any file type can be supported
-- Default strategies for key under `pubspec.yaml`
+- Customizable parsers, so any file type can be supported
+- Default parsers for key under `pubspec.yaml`
 
 ## Getting started
 
@@ -44,28 +43,44 @@ final explorer = Unaconfig(
   paths: [Directory.current],
   // see "Search Patterns" section
   searchPatterns: Unaconfig.defaultSearchPatterns,
-  // see "Strategies" section
-  strategies: Unaconfig.defaultStrategies,
-  merge: true,
+  // see "Parsers" section
+  parsers: Unaconfig.defaultparsers,
   fs: LocalFileSystem(),
 );
 ```
 
-## Search Patterns
+## Filename Patterns
 
-Search patterns define what the config file should be named, inside any of the paths in the `paths`
-list.
+Filename patterns patterns define what files to look for in each searched directory.
 
 - Each string will eventually become a `RegExp` pattern, so be sure to escape as necessary.
 - `{name}` inside the patterns is replaced by the name provided to the `Unaconfig`.
 
-By default, Unaconfig checks the for the following configs:
+A successful match will start going through the Parsers until a config map is returned from it.
+
+By default, Unaconfig checks the for the following config files in every matched dir:
 
 - A property in `pubspec.yaml`
-- A `{name}.yaml` file
-- A `{name}.json` file
+- `{name}.yaml`
+- `{name}.json`
+- `.config/{name}.yaml`
+- `.config/{name}.json`
 
-## Parser
+## Paths
+
+Unaconfig searches in several directories, matching on the first matched file & config.
+
+By default, the following directories are tried:
+
+- The project root (closest dir to current that contains `pubspec.yaml`)
+- The user's home dir
+
+Patterns with paths containing directories in the `filenamePatterns` field can be triggered for the
+provided directories inside any of the above or provided paths. For example, `.config/{name}.yaml`
+will also try to use both `<projectRoot>/.config/{name}.yaml` and `$HOME/.config/{name}.yaml`,
+returning the first successful match.
+
+## Parsers
 
 A config parser takes the file and its contents, along with the name to lookup, and produces a final
 config map.
@@ -85,17 +100,17 @@ ConfigParser(
 )
 ```
 
-The current strategies are:
+The current parsers are:
 
 - `pubspec.yaml` - Fetches the `name` from the config, and only loads that subsection of the map
 - Any `yaml` file - parse yaml file entirely
 - Any `json` file - parse json file entirely
 
-You can create your own strategies easily by implementing an instance of this class (or extend to a
-subclass) and putting it in the `strategies` parameter of `Unaconfig`.
+You can create your own parsers easily by implementing an instance of this class (or extend to a
+subclass) and putting it in the `parsers` parameter of `Unaconfig`.
 
-**Note:** if you supply your own strategies, they will replace the defaults. Make sure to include
-them manually from `Unaconfig.defaultStrategies` if you so desire.
+**Note:** if you supply your own parsers, they will replace the defaults. Make sure to include them
+manually from `Unaconfig.defaultparsers` if you so desire.
 
 ## Contributing
 

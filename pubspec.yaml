@@ -1,5 +1,6 @@
 name: unaconfig
-description: "Get user configs for your library with no hassle"
+description: |
+  Load your user's config files for your package easily, from multiple sources & formats
 version: 0.0.1
 homepage: https://github.com/chenasraf/unaconfig_dart
 

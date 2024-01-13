@@ -3,15 +3,14 @@
 If you are bulding a package or library for dart, you will often need to get the user config from
 either a standalone file or pubspec.yaml.
 
-This package lets you find files in various formats and get the first config that matches.
-
-This package is inspired by NPM's [cosmiconfig](https://www.npmjs.com/package/cosmiconfig).
+Unaconfig lets you find files in various formats and get the first config that matches.
 
 ## Features
 
 - Just set your config name and search
 - Customizable parsers, so any file type can be supported
 - Default parsers for key under `pubspec.yaml`
+- Fully customizable
 
 ## Getting started
 
@@ -43,7 +42,7 @@ final explorer = Unaconfig(
   paths: [Directory.current],
   // see "Search Patterns" section
   searchPatterns: Unaconfig.defaultSearchPatterns,
-  // see "Parsers" section
+  // see "ConfigParsers" section
   parsers: Unaconfig.defaultparsers,
   fs: LocalFileSystem(),
 );
@@ -56,7 +55,8 @@ Filename patterns patterns define what files to look for in each searched direct
 - Each string will eventually become a `RegExp` pattern, so be sure to escape as necessary.
 - `{name}` inside the patterns is replaced by the name provided to the `Unaconfig`.
 
-A successful match will start going through the Parsers until a config map is returned from it.
+A successful match will start going through the ConfigParsers until a config map is returned from
+it.
 
 By default, Unaconfig checks the for the following config files in every matched dir:
 
@@ -80,7 +80,7 @@ provided directories inside any of the above or provided paths. For example, `.c
 will also try to use both `<projectRoot>/.config/{name}.yaml` and `$HOME/.config/{name}.yaml`,
 returning the first successful match.
 
-## Parsers
+## ConfigParsers
 
 A config parser takes the file and its contents, along with the name to lookup, and produces a final
 config map.
@@ -111,6 +111,14 @@ subclass) and putting it in the `parsers` parameter of `Unaconfig`.
 
 **Note:** if you supply your own parsers, they will replace the defaults. Make sure to include them
 manually from `Unaconfig.defaultparsers` if you so desire.
+
+## Notes
+
+The package is inspired by [cosmiconfig](https://www.npmjs.com/package/cosmiconfig) and follows
+similar, but not identical, conventions. It is not aimed to reach full symmetry, as the NPM and Dart
+ecosystems are different (for example, `.dart` files cannot be dynamically loaded, and `.{name}rc`
+files are not usually used in the Dart/Pub ecosystem). However, you are free to implement your own
+ConfigParsers, paths and name patterns to modify the behaviors as you wish.
 
 ## Contributing
 

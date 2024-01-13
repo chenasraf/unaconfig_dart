@@ -8,7 +8,7 @@ final explorer = Unaconfig(
     ...Unaconfig.defaultFilenamePatterns,
     r'.{name}\.txt$',
   ],
-  strategies: [
+  parsers: [
     ...Unaconfig.defaultParsers,
     ConfigParser(
       RegExp(r'^.+\.txt$'),

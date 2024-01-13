@@ -4,13 +4,13 @@ import 'package:unaconfig/unaconfig.dart';
 
 final explorer = Unaconfig(
   'test_pkg',
-  searchPatterns: [
-    ...Unaconfig.defaultSearchPatterns,
+  filenamePatterns: [
+    ...Unaconfig.defaultFilenamePatterns,
     r'.{name}\.txt$',
   ],
   strategies: [
-    ...Unaconfig.defaultStrategies,
-    SearchStrategy(
+    ...Unaconfig.defaultParsers,
+    ConfigParser(
       RegExp(r'^.+\.txt$'),
       (name, path, contents) => {'text': contents},
     ),

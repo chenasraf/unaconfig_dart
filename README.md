@@ -39,7 +39,8 @@ You can provide several parameters to the `Unaconfig` to change where and how it
 Only the first parameter, `name`, is required. Below are the default values:
 
 ```dart
-final explorer = Unaconfig('my_package',
+final explorer = Unaconfig(
+  'my_package',
   paths: [Directory.current],
   // see "Search Patterns" section
   searchPatterns: Unaconfig.defaultSearchPatterns,
@@ -58,31 +59,27 @@ list.
 - Each string will eventually become a `RegExp` pattern, so be sure to escape as necessary.
 - `{name}` inside the patterns is replaced by the name provided to the `Unaconfig`.
 
-By default, these are the files being searched:
+By default, Unaconfig checks the for the following configs:
 
-```dart
-final defaultSearchPatterns = <String>[
-  r'^pubspec\.yaml$',
-  r'.{name}\.json$',
-  r'.{name}\.ya?ml$',
-];
-```
+- A property in `pubspec.yaml`
+- A `{name}.yaml` file
+- A `{name}.json` file
 
-## Strategies
+## Parser
 
-A strategy defines that once a file has been found to match one of the search patterns, how to parse
-its content into a `Map<String, dynamic>`.
+A config parser takes the file and its contents, along with the name to lookup, and produces a final
+config map.
 
-Each strategy takes a pattern, which is tested against the file name to decide that this strategy
-will be used on it.
+Each parser takes a pattern, which is tested against the file name to decide that this parser will
+be used on it.
 
 It also takes a function, which given the config name, path and string contents should return a
 `Map<String, dynamic>` which represents the config that you want to load.
 
-For example, this is the `json` `SearchStrategy`, you can use this example to implement your own:
+For example, this is the `json` `ConfigParser`, you can use this example to implement your own:
 
 ```dart
-SearchStrategy(
+ConfigParser(
   RegExp(r'.*\.json$'),
   (name, path, contents) => json.decode(contents),
 )

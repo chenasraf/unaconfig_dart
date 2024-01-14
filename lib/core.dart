@@ -1,6 +1,3 @@
-/// A library for searching for configuration files.
-library unaconfig;
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';

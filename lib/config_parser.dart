@@ -1,6 +1,3 @@
-/// A library for searching for configuration files.
-library unaconfig;
-
 import 'dart:async';
 
 import 'package:file/file.dart';
@@ -87,4 +84,3 @@ class ConfigParser {
     return {};
   }
 }
-

@@ -21,4 +21,3 @@ void main() async {
   final config = await explorer.search();
   print(config);
 }
-

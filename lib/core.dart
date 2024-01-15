@@ -123,7 +123,8 @@ class Unaconfig {
     }
     final parsers = this.parsers.map((s) => s.copyWith(fs: fs));
     for (final parser in parsers) {
-      if (!parser.matches(path)) {
+      final filename = p.basename(path);
+      if (!parser.matches(filename)) {
         continue;
       }
       final config = await parser.search(name, path);
@@ -180,3 +181,4 @@ class Unaconfig {
     return null;
   }
 }
+

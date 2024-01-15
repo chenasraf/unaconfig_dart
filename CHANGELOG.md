@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Fix: ConfigParser matching mechanism
+
 ## 0.1.1
 
 - Update docs

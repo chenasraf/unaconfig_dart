@@ -1,7 +1,7 @@
 name: unaconfig
 description: |
   Load your user's config files for your package easily, from multiple sources & formats
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/chenasraf/unaconfig_dart
 
 environment:

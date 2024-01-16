@@ -64,15 +64,18 @@ class ConfigParser {
     for (final entry in yaml.entries) {
       final key = entry.key;
       final value = entry.value;
-      if (value is YamlMap) {
-        json[key] = yamlMapToMap(value);
-      } else if (value is YamlList) {
-        json[key] = value.toList();
-      } else {
-        json[key] = value;
-      }
+      json[key] = _parseValue(value);
     }
     return json;
+  }
+
+  static dynamic _parseValue(dynamic value) {
+    if (value is YamlMap) {
+      return yamlMapToMap(value);
+    } else if (value is YamlList) {
+      return value.map(_parseValue).toList();
+    }
+    return value;
   }
 
   /// Load a YAML string as a native (Dart) map. Returns an empty map if the YAML is invalid.
@@ -84,3 +87,4 @@ class ConfigParser {
     return {};
   }
 }
+

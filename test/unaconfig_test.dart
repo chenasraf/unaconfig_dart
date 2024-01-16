@@ -16,6 +16,7 @@ void main() {
 
     final explorer = Unaconfig('test', fs: fs);
     final results = await explorer.search();
+    expect(results.runtimeType, Map<String, dynamic>);
     expect(results, {
       'test': {'key': 'value'}
     });
@@ -29,6 +30,7 @@ void main() {
 
     final explorer = Unaconfig('test', fs: fs);
     final results = await explorer.search();
+    expect(results.runtimeType, Map<String, dynamic>);
     expect(results, {
       'test': {'key': 'value'}
     });
@@ -42,6 +44,7 @@ void main() {
 
     final explorer = Unaconfig('test', fs: fs);
     final results = await explorer.search();
+    expect(results.runtimeType, Map<String, dynamic>);
     expect(results, {
       'test': {'key': 'value'}
     });

@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Fix: ConfigParser list parsing
+
 ## 0.1.2
 
 - Fix: ConfigParser matching mechanism

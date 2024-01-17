@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Fix: path searching
+
 ## 0.1.3
 
 - Fix: ConfigParser list parsing

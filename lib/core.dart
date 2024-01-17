@@ -153,7 +153,7 @@ class Unaconfig {
       if (!dirExists) {
         continue;
       }
-      await for (final entity in dir.list(recursive: true)) {
+      await for (final entity in dir.list()) {
         if (entity is! File) {
           continue;
         }

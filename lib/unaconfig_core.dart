@@ -181,4 +181,3 @@ class ConfigMatchDetails {
 
   ConfigMatchDetails(this.path, this.config);
 }
-

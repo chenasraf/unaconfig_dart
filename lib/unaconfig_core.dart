@@ -117,29 +117,22 @@ class Unaconfig {
   ///
   /// Returns the configuration as a map, or null if no configuration was found.
   Future<Map<String, dynamic>?> search() async {
-    final path = await findConfig();
-    if (path == null) {
-      return null;
-    }
-    final parsers = this.parsers.map((s) => s.copyWith(fs: fs));
-    for (final parser in parsers) {
-      final filename = p.basename(path);
-      if (!parser.matches(filename)) {
-        continue;
-      }
-      final config = await parser.search(name, path);
-      if (config == null) {
-        continue;
-      }
-      return config;
-    }
-    return null;
+    final match = await findConfig();
+    return match?.config;
   }
 
-  /// Search for the configuration file.
+  /// Search for the configuration file, and return the path.
   ///
-  /// Returns the path to the configuration file, or null if no configuration was found.
-  Future<String?> findConfig() async {
+  /// Returns null if no configuration was found.
+  Future<String?> findPath() async {
+    final match = await findConfig();
+    return match?.path;
+  }
+
+  /// Search for the configuration file, and return the path and configuration contents.
+  ///
+  /// Returns null if no configuration was found.
+  Future<ConfigMatchDetails?> findConfig() async {
     final parsers = this.parsers.map((s) => s.copyWith(fs: fs)).toList();
     final patterns = filenamePatterns
         .map((p) => RegExp(p.replaceAll('{name}', name)))
@@ -174,10 +167,18 @@ class Unaconfig {
           if (config == null) {
             continue;
           }
-          return path;
+          return ConfigMatchDetails(path, config);
         }
       }
     }
     return null;
   }
 }
+
+class ConfigMatchDetails {
+  final String path;
+  final Map<String, dynamic> config;
+
+  ConfigMatchDetails(this.path, this.config);
+}
+

@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Refactor: simplify and unify fetch logic
+
 ## 0.1.4
 
 - Fix: path searching

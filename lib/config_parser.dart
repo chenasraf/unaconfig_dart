@@ -86,4 +86,7 @@ class ConfigParser {
     }
     return {};
   }
+
+  @override
+  String toString() => 'ConfigParser($pattern)';
 }

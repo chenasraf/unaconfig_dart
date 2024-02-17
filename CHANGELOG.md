@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Fix: path searching in inner-project dirs
+
 ## 0.2.0
 
 - Refactor: simplify and unify fetch logic

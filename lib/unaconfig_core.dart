@@ -45,13 +45,15 @@ class Unaconfig {
     List<String>? filenamePatterns,
     List<ConfigParser>? parsers,
     this.fs = const LocalFileSystem(),
-  })  : paths = paths ?? [getProjectRoot(fs), getHomeDirectory(fs)],
+  })  : paths = paths ?? [getCurrentDirectory(fs), getProjectRoot(fs), getHomeDirectory(fs)],
         filenamePatterns = filenamePatterns ?? defaultFilenamePatterns,
         parsers = parsers ?? defaultParsers;
 
   /// The default search patterns.
   static final defaultFilenamePatterns = <String>[
     r'pubspec\.yaml$',
+    r'{name}\.json$',
+    r'{name}\.ya?ml$',
     r'.{name}\.json$',
     r'.{name}\.ya?ml$',
     r'\.config\/{name}.json$',
@@ -89,6 +91,9 @@ class Unaconfig {
   /// The default home directory of the current user.
   String get homeDirectory => getHomeDirectory(fs);
 
+  /// The default current directory.
+  String get currentDirectory => getCurrentDirectory(fs);
+
   /// Get the project root directory. The [fs] is the file system to use to search for the project root.
   ///
   /// The project root is the directory that contains a `pubspec.yaml` file.
@@ -112,6 +117,9 @@ class Unaconfig {
     final home = env['HOME'] ?? env['USERPROFILE'];
     return home ?? fs.currentDirectory.path;
   }
+
+  /// Get the current directory.
+ static String getCurrentDirectory(FileSystem fs) => fs.currentDirectory.path;
 
   /// Search for the configuration.
   ///
@@ -138,6 +146,7 @@ class Unaconfig {
         .map((p) => RegExp(p.replaceAll('{name}', name)))
         .toList();
     final searchPaths = paths;
+    final tried = <String>{};
 
     for (final pathname in searchPaths) {
       final dirPath = p.isRelative(pathname) ? p.absolute(pathname) : pathname;
@@ -147,7 +156,7 @@ class Unaconfig {
         continue;
       }
       await for (final entity in dir.list()) {
-        if (entity is! File) {
+        if (entity is! File || tried.contains(entity.path)) {
           continue;
         }
         final path = entity.path;
@@ -160,11 +169,12 @@ class Unaconfig {
         }
 
         for (final parser in parsers) {
-          if (!parser.matches(filename)) {
+          if (!parser.matches(filename) || tried.contains(path)) {
             continue;
           }
           final config = await parser.search(name, path);
           if (config == null) {
+            tried.add(path);
             continue;
           }
           return ConfigMatchDetails(path, config);
@@ -181,3 +191,4 @@ class ConfigMatchDetails {
 
   ConfigMatchDetails(this.path, this.config);
 }
+

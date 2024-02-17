@@ -41,7 +41,7 @@ final explorer = Unaconfig(
   // Name to look for in filenames
   'my_package',
   // Paths to search in, see "Paths" section
-  paths: [projectRoot, homeDirectory],
+  paths: [currentDirectory, projectRoot, homeDirectory],
   // Filenames to try in each search path, see "Filename Patterns" section
   filenamePatterns: Unaconfig.defaultFilenamePatterns,
   // Parsers that resolve config files, see "ConfigParsers" section
@@ -51,6 +51,21 @@ final explorer = Unaconfig(
   fs: LocalFileSystem(),
 );
 ```
+
+## Paths
+
+Unaconfig searches in several directories, matching on the first matched file & config.
+
+By default, the following directories are tried, in order:
+
+- The current directory
+- The project root (closest dir to current that contains `pubspec.yaml`)
+- The user's home dir
+
+Patterns with paths containing directories in the `filenamePatterns` field can be triggered for the
+provided directories inside any of the above or provided paths. For example, `.config/{name}.yaml`
+will also try to use both `<projectRoot>/.config/{name}.yaml` and `$HOME/.config/{name}.yaml`,
+returning the first successful match.
 
 ## Filename Patterns
 
@@ -67,22 +82,10 @@ By default, Unaconfig checks the for the following config files in every matched
 - A property in `pubspec.yaml`
 - `{name}.yaml`
 - `{name}.json`
+- `.{name}.yaml`
+- `.{name}.json`
 - `.config/{name}.yaml`
 - `.config/{name}.json`
-
-## Paths
-
-Unaconfig searches in several directories, matching on the first matched file & config.
-
-By default, the following directories are tried:
-
-- The project root (closest dir to current that contains `pubspec.yaml`)
-- The user's home dir
-
-Patterns with paths containing directories in the `filenamePatterns` field can be triggered for the
-provided directories inside any of the above or provided paths. For example, `.config/{name}.yaml`
-will also try to use both `<projectRoot>/.config/{name}.yaml` and `$HOME/.config/{name}.yaml`,
-returning the first successful match.
 
 ## ConfigParsers
 
@@ -95,7 +98,8 @@ be used on it.
 It also takes a function, which given the config name, path and string contents should return a
 `Map<String, dynamic>` which represents the config that you want to load.
 
-For example, this is the `json` `ConfigParser`, you can use this example to implement your own:
+For example, this is the `ConfigParser` for `json` files, you can use this example to implement your
+own:
 
 ```dart
 ConfigParser(
@@ -131,7 +135,7 @@ very helpful to sustaining its life. If you are feeling incredibly generous and 
 just a small amount to help sustain this project, I would be very very thankful!
 
 <a href="https://ko-fi.com/casraf" target="_blank">
-  <img height="36" style="border:0px;height:36px;"
+  <img height="36"
     src="https://cdn.ko-fi.com/cdn/kofi1.png?v=3"
     alt="Buy Me a Coffee at ko-fi.com" />
 </a>

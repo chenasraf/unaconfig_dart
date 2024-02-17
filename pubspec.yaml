@@ -1,7 +1,7 @@
 name: unaconfig
 description: |
   Load your user's config files for your package easily, from multiple sources & formats
-version: 0.3.0
+version: 0.3.1
 homepage: https://github.com/chenasraf/unaconfig_dart
 
 environment:
@@ -9,12 +9,13 @@ environment:
 
 dependencies:
   file: ^7.0.0
-  path: ^1.8.3
+  path: ^1.9.0
   yaml: ^3.1.2
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^3.0.0
   test: ^1.24.9
 
 script_runner:
-  publish: dart format .; dart pub publish
+  scripts:
+    - publish: dart format .; dart pub publish

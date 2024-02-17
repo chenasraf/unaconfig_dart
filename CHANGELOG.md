@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Update dependencies
+
 ## 0.3.0
 
 - Fix: path searching in inner-project dirs

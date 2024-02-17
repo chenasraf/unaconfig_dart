@@ -45,7 +45,8 @@ class Unaconfig {
     List<String>? filenamePatterns,
     List<ConfigParser>? parsers,
     this.fs = const LocalFileSystem(),
-  })  : paths = paths ?? [getCurrentDirectory(fs), getProjectRoot(fs), getHomeDirectory(fs)],
+  })  : paths = paths ??
+            [getCurrentDirectory(fs), getProjectRoot(fs), getHomeDirectory(fs)],
         filenamePatterns = filenamePatterns ?? defaultFilenamePatterns,
         parsers = parsers ?? defaultParsers;
 
@@ -119,7 +120,7 @@ class Unaconfig {
   }
 
   /// Get the current directory.
- static String getCurrentDirectory(FileSystem fs) => fs.currentDirectory.path;
+  static String getCurrentDirectory(FileSystem fs) => fs.currentDirectory.path;
 
   /// Search for the configuration.
   ///
@@ -191,4 +192,3 @@ class ConfigMatchDetails {
 
   ConfigMatchDetails(this.path, this.config);
 }
-
